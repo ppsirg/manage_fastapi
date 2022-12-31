@@ -1,0 +1,42 @@
+[
+    {
+        "resource": "users",
+        "endpoints": [
+            {
+                "method": "get",
+                "url": "/users/",
+                "description": "list users"
+            },
+            {
+                "method": "get",
+                "url": "/users/{user_id}/",
+                "description": "detail of a user"
+            },
+            {
+                "method": "post",
+                "url": "/users/",
+                "description": "create users"
+            }
+        ]
+    },
+    {
+        "resource": "leads",
+        "endpoints": [
+            {
+                "method": "get",
+                "url": "/leads/",
+                "description": "list leads"
+            },
+            {
+                "method": "get",
+                "url": "/leads/{lead_id}/",
+                "description": "detail of a lead"
+            },
+            {
+                "method": "post",
+                "url": "/leads/",
+                "description": "create leads"
+            }
+        ]
+    }
+]

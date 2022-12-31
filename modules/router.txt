@@ -1,0 +1,14 @@
+from fastapi import APIRouter
+
+router = APIRouter()
+
+{{ for endpoint in endpoints }}
+
+@router.{{ endpoint.method }}({{ endpoint.url }}):
+async def {{ endpoint.method }}_{{ endpoint.url.replace('/','_') }}():
+    """{{ endpoint.method }} {{ endpoint.url.replace('/',' ') }}, {{ endpoint.description }}
+    """
+    return 'not implemented'
+
+
+{{ endfor }}

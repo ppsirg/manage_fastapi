@@ -1,0 +1,14 @@
+import pytest
+from fastapi.testclient import TestClient
+from ..app import app
+
+cli = TestClient(app)
+
+{{ for endpoint in endpoints }}
+
+@pytest.mark.skip('not implemented')
+def test_{{ endpoint.method }}_{{ endpoint.url.replace('/','_')}}():
+    response = cli.{{ endpoint.method }}({{ endpoint.url }})
+    assert response.status_code == 200
+
+{{ endfor }}
