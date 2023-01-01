@@ -1,0 +1,4 @@
+"""
+Domain Module for {{ resource }}
+"""
+__all__ = []

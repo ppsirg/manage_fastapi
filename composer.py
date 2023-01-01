@@ -1,9 +1,15 @@
 import os
+from subprocess import run
 
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 template_dir = os.path.join(base_dir, "modules")
-resources = ("app", "router", "tests")
+resources = ("app", "router", "test", "__init__", "models", "definitions")
+domain_files = ("__init__", "models", "definitions")
+
+
+def build_lines(*args):
+    return "\n".join(args)
 
 
 def load_file(filename):
@@ -30,10 +36,15 @@ def create_file(filepath, data=None):
 
 
 def render_file(template, context):
-    return ""
+    return template
 
 
-def main():
+def add_router_to_app(resource, template):
+    with open("app.py", "a") as fd:
+        fd.write(f"\n{template}")
+
+
+def create_resource():
     # load templates
     templates = load_templates()
     # load schema
@@ -42,18 +53,33 @@ def main():
         # create folders
         folder = assert_folder(resource["resource"])
         # create domain files
-        create_file(os.path.join(folder, "__init__.py"))
-        create_file(os.path.join(folder, "models.py"))
-        create_file(os.path.join(folder, "definitions.py"))
-        # create router file
-        folder = assert_folder("routers")
-        create_file(
-            os.path.join(folder, f"{resource['resource']}.py"),
-            data=render_file("router", resource),
-        )
-        # create tests
-        folder = assert_folder("tests")
-        create_file(
-            os.path.join(folder, f"{resource['resource']}.py"),
-            data=render_file("tests", resource),
-        )
+        for item in domain_files:
+            create_file(
+                os.path.join(folder, f"{item}.py"),
+                data=render_file(templates[item], resource),
+            )
+        # create routers and tests
+        for item in ("router", "test"):
+            folder = assert_folder(f"{item}s")
+            create_file(
+                os.path.join(
+                    folder,
+                    f"{'test_' if item == 'test' else ''}{resource['resource']}.py",
+                ),
+                data=render_file(templates[item], resource),
+            )
+        # add router to app
+        add_router_to_app(resource["resource"], templates["app"])
+
+
+def build_docker_image(name):
+    # build requirements
+    run(
+        "poetry export -f requirements.txt --output requirements.txt".split(" "),
+        check=True,
+    )
+    # build docker
+    run(
+        ["docker", "build", f"{name}_image", "."],
+        check=True,
+    )

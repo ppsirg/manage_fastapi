@@ -1,0 +1,4 @@
+"""
+Data definitions for {{ resource }}
+"""
+from typing import NamedTuple

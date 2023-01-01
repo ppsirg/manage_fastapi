@@ -1,0 +1,5 @@
+"""
+Validation models for {{ resource }}
+"""
+from typing import NamedTuple
+from pydantic import BaseModel
