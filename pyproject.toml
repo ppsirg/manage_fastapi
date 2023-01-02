@@ -1,13 +1,12 @@
 [tool.poetry]
-name = "manage-fastapi"
+name = "manage_fastapi"
 version = "0.1.0"
 description = ""
 authors = ["Cristian Ordoñez <cristiano_ord93@hotmail.com>"]
 readme = "README.md"
-packages = [{include = "manage_fastapi"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 
 
 [build-system]
